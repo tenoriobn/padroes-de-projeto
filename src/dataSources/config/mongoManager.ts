@@ -1,5 +1,8 @@
+import { MongoClient } from "mongodb";
+
 export class MongoManager {
   public static instance: MongoManager;
+  public client: MongoClient | null = null;
   private constructor() {}
 
   public static getInstance():MongoManager {
@@ -8,5 +11,11 @@ export class MongoManager {
     }
 
     return MongoManager.instance;
+  }
+
+  public async connect(url: string) {
+    if (!this.client) {
+      this.client = await MongoClient.connect(url);
+    }
   }
 }
